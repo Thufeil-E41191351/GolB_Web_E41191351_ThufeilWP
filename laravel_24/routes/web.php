@@ -20,11 +20,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('statusadmin');
 
-Route::get('admin/profile', function(){
+Route::get('error', function(){
     //
 })->middleware('auth');
+
+Route::get('admin/profile', function(){
+    return view('error');
+    //
+})->name('error');
 
 Route::get('/', function(){
     //
