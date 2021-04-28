@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckAge;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,39 +19,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('statusadmin');
+// Route::get('/home', [App\Http\Controllers\HomeController::class,
+//  'index'])->name('home')->middleware('statusAdmin');
 
-Route::get('error', function(){
-    //
-})->middleware('auth');
-
-Route::get('admin/profile', function(){
-    return view('error');
-    //
+Route::get('/error', function(){
+    return view ('error');
 })->name('error');
-
-Route::get('/', function(){
-    //
-})->middleware('first', 'second');
-
-Route::get('/', function(){
-    //
-})->middleware('web');
-
-Route::group(['middleware' => ['web']], function(){
-    //
-});
-
-Route::middleware(['web', 'subscribed'])->group(function(){
-    //
-});
-
-//role
-Route::put('post/{id}', function ($id){
-    //
-})->middleware('role:editor');
-
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\Backend\DashboardController::class, 
+'index'])->name('dashboard');
+
+Route::group(
+    ['namespace' => 'App\Http\Controllers\Backend'],
+    function () {
+        // Route::resource('/dashboard', DashboardController::class);
+        Route::resource('/pengalaman_kerja', PengalamanKerjaController::class);
+    }
+);
